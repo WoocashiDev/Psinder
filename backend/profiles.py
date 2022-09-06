@@ -1,6 +1,7 @@
 from flask_restx import Namespace, Resource, fields
 from models import Profile
 from flask_jwt_extended import jwt_required
+from flask import request
 
 profile_ns = Namespace("profile", description="A namespace for Profiles")
 
@@ -35,7 +36,7 @@ class ProfilesResource(Resource):
     def get(self):
         """get all profiles"""
         profiles = Profile.query.all()
-        return profiles
+        return profiles, 201
 
     @profile_ns.marshal_with(profile_model)
     @profile_ns.expect(profile_model)
@@ -65,7 +66,7 @@ class ProfilesResource(Resource):
     def get(self, id):
         """get particular profile"""
         profile = Profile.query.get_or_404(id)
-        return profile
+        return profile, 201
 
     @jwt_required()
     @profile_ns.marshal_with(profile_model)
@@ -73,7 +74,7 @@ class ProfilesResource(Resource):
         """delete particular profile"""
         profile_to_delete = Profile.query.get_or_404(id)
         profile_to_delete.delete()
-        return profile_to_delete
+        return profile_to_delete, 201
 
     @jwt_required()
     @profile_ns.marshal_with(profile_model)
@@ -92,4 +93,4 @@ class ProfilesResource(Resource):
             data.get("dislikes"),
             data.get("matches"),
         )
-        return profile_to_update
+        return profile_to_update, 201
