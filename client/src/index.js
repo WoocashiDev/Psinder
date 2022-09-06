@@ -1,35 +1,28 @@
-import React, {useEffect, useState} from 'react'
+import React from 'react'
 import { createRoot } from 'react-dom/client';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import HomePage from './components/HomePage';
+import SignUp from './components/SignUp';
+import Login from './components/Login';
 import NavBar from './components/Navbar';
-import Hero from './components/Hero'
-import Features from './components/Features';
-import Testimonials from './components/Testimonials';
-import Press from './components/Press';
-import Pricing from './components/Pricing';
-import Cta from './components/Cta';
-import Footer from './components/Footer';
+import SetupProfile from './components/SetupProfile';
+import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 
 const App=()=>{
 
     
     return (
+        <Router>
         <div>
-            <section id="title">
-                <div className="container">
-                    <NavBar/>
-                    <Hero/>
-                </div>
-            </section>
-            <section id="features">
-                <Features/>
-            </section>
-            <Testimonials/>
-            <Press/>
-            <Pricing/>
-            <Cta/>
-            <Footer/>
+            <NavBar/>
+            <Routes>
+                <Route exact path="/setup_profile" element={<SetupProfile/>}/>
+                <Route exact path="/signup" element={<SignUp/>}/>
+                <Route exact path="/login" element={<Login/>}/>
+                <Route exact path="/" element={<HomePage/>}/>
+            </Routes>
         </div>
+        </Router>
 
     )
 }

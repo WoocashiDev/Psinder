@@ -7,7 +7,6 @@ from profiles import profile_ns
 from auth import auth_ns
 from flask_cors import CORS
 
-
 def create_app(config):
     app = Flask(__name__)
     app.config.from_object(config)
