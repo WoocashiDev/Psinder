@@ -7,6 +7,7 @@ from flask_jwt_extended import (
     create_access_token,
     create_refresh_token,
     jwt_required,
+    get_jwt_identity,
 )
 
 auth_ns = Namespace("auth", description="A namespace for our Authentication")
@@ -88,3 +89,15 @@ class Login(Resource):
                     "message": "Wrong login credentials, please try again with correct ones!"
                 }
             )
+
+
+@auth_ns.route("/refresh")
+class RefreshResource(Resource):
+    @jwt_required(refresh=True)
+    def post(self):
+
+        current_user = get_jwt_identity()
+
+        new_access_token = create_access_token(identity=current_user)
+
+        return make_response(jsonify({"access_token": new_access_token}), 200)
