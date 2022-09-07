@@ -14,7 +14,7 @@ const NavBar=()=>{
                         <div className="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                         <ul className="navbar-nav">
                             <li className="nav-item ms-3">
-                            <Link to="/signup" className="nav-link active" aria-current="page" >Sign up</Link>
+                            <Link to="/signup" className="nav-link" aria-current="page" >Sign up</Link>
                             </li>
                             <li className="nav-item ms-3">
                             <Link to="/login" className="nav-link">Login</Link>
