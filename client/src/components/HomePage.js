@@ -6,8 +6,15 @@ import Press from './HomePage/Press';
 import Pricing from './HomePage/Pricing';
 import Cta from './HomePage/Cta';
 import Footer from './HomePage/Footer';
+import { useAuth } from '../auth';
 
-const HomePage = () => {
+const LoggedInHomePage = ()=>{
+    return(
+        <div>You have logged in!</div>
+    )
+}
+
+const LoggedOutHomePage = ()=>{
     return(
         <div>
         <section className="title">
@@ -24,6 +31,16 @@ const HomePage = () => {
         <Cta/>
         <Footer/>
     </div>
+    )
+}
+
+const HomePage = () => {
+    const [logged] = useAuth()
+
+    return(
+        <>
+        {logged?<LoggedInHomePage/>:<LoggedOutHomePage/>}
+        </>
     )
 }
 

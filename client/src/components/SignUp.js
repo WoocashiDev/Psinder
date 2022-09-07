@@ -1,9 +1,16 @@
 import React, {useState} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {useForm} from 'react-hook-form';
+import Alert from './Alert';
 
 const SignUp = () => {
-    const {register, watch, handleSubmit, reset, formState:{errors}} = useForm();
+    const {register, handleSubmit, reset, formState:{errors}} = useForm();
+
+    const [showAlert, setShowAlert] = useState(false)
+
+    const [serverResponse, setServerResponse] = useState('')
+
+    const redirect = useNavigate()
 
     const submitForm=(data)=>{
         console.log(data)
@@ -26,19 +33,24 @@ const SignUp = () => {
 
         fetch('/auth/signup', requestOptions)
         .then(res=>res.json())
-        .then(data=>console.log(data))
+        .then(data=>{
+            setServerResponse(data.message)
+            setShowAlert(false)
+            redirect('/login')
+            console.log(serverResponse)
+        })
         .then(err=>console.log(err))
 
         reset()
     } else {
-        alert("Passwords do not match")
+        setShowAlert(true)
     }
 }
 
-    console.log(watch("username"))
-
     return(
         <div>
+            {showAlert && Alert('Passwords do not match', 'Please check if your passwords do not contain any typos', "danger")}
+            {serverResponse && Alert('Success!', serverResponse, 'success')}
             <div className="container">
                 <div className="row d-flex justify-content-center">
                     <div className="col-lg-6">
@@ -70,7 +82,6 @@ const SignUp = () => {
                                 <label htmlFor="passwordConfirmInput" className="form-label">Confirm Password</label>
                                 <input type="password" className="form-control" id="passwordConfirmInput" name="confirmPassword" {...register("confirmPassword",{required:true,minLength:8})}/>
                             </div>
-                            {errors.password && <small style={{color: "red"}}>Make sure your password is the same as above</small>}
                             <div className="mb-3 form-check">
                                 <input type="checkbox" className="form-check-input" id="consentInput"/>
                                 <label className="form-check-label" htmlFor="consentInput">I agree to the terms of use of psinder</label>
